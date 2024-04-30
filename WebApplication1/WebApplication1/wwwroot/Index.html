@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=1080 ">
+    <title>GET Request Test</title>
+</head>
+<body style="height: 100%;">
+    
+
+    <div id="response"></div>
+
+    <script>
+    var test;
+  // Function to make a GET request
+  function makeGetRequest(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        callback(xhr.responseText);
+      }
+    };
+    xhr.send();
+  }
+
+  // Function to handle the response
+  function handleResponse(response) {
+    test = response;
+    //document.getElementById("response").innerText = response;
+    test = JSON.parse(test);
+    console.log(test[1]);
+    updatechart(test);
+    console.log("test")
+  }
+
+  function updatechart(API_Data)
+  {
+
+    PressureChart.data.datasets[0].data = [API_Data[0].pressure,
+    API_Data[1].pressure,
+    API_Data[2].pressure,
+    API_Data[3].pressure,
+    API_Data[4].pressure,
+    API_Data[5].pressure,
+    API_Data[6].pressure,
+    API_Data[7].pressure,
+    API_Data[8].pressure,
+    API_Data[9].pressure,
+    API_Data[10].pressure,
+    API_Data[11].pressure,
+    API_Data[12].pressure,
+    API_Data[13].pressure,
+    API_Data[14].pressure,
+    API_Data[15].pressure,
+    API_Data[16].pressure,
+    API_Data[17].pressure,
+    API_Data[18].pressure,
+    API_Data[19].pressure];
+    setTimeout("PressureChart.update();", 1000);
+
+    TemperatureChart.data.datasets[0].data = [API_Data[0].temperature,
+    API_Data[1].temperature,
+    API_Data[2].temperature,
+    API_Data[3].temperature,
+    API_Data[4].temperature,
+    API_Data[5].temperature,
+    API_Data[6].temperature,
+    API_Data[7].temperature,
+    API_Data[8].temperature,
+    API_Data[9].temperature,
+    API_Data[10].temperature,
+    API_Data[11].temperature,
+    API_Data[12].temperature,
+    API_Data[13].temperature,
+    API_Data[14].temperature,
+    API_Data[15].temperature,
+    API_Data[16].temperature,
+    API_Data[17].temperature,
+    API_Data[18].temperature,
+    API_Data[19].temperature];
+    setTimeout("TemperatureChart.update();", 1000);
+
+    LightChart.data.datasets[0].data = [API_Data[0].light,
+    API_Data[1].light,
+    API_Data[2].light,
+    API_Data[3].light,
+    API_Data[4].light,
+    API_Data[5].light,
+    API_Data[6].light,
+    API_Data[7].light,
+    API_Data[8].light,
+    API_Data[9].light,
+    API_Data[10].light,
+    API_Data[11].light,
+    API_Data[12].light,
+    API_Data[13].light,
+    API_Data[14].light,
+    API_Data[15].light,
+    API_Data[16].light,
+    API_Data[17].light,
+    API_Data[18].light,
+    API_Data[19].light];
+    setTimeout("LightChart.update();", 1000);
+  }
+  
+
+  // Example usage: Make a GET request to a URL
+        var url = "https://localhost:7161/api/boarddatums";
+  function test()
+  {
+    makeGetRequest(url, handleResponse)
+    console.log("hahhahahah")
+  }
+  var t = window.setInterval(test,1000);
+    </script>
+    
+
+    <canvas id="Pressure" style="width:70%;max-width:70%;max-height:33%; height: 300px !important;float: right;padding-bottom: 35px;padding-right: 30px;"></canvas>
+    <p style="padding-top: 110px;padding-left: 210px;font-size: 50px;font-family: Arial, sans-serif;">Pressure:</p>
+    <canvas id="Temperature" style="width:70%;max-width:70%;height:300px !important;clear: right;float: right;padding-bottom: 35px;padding-right: 30px;"></canvas>
+    <p style="float: left;padding-top: 85px;padding-left: 210px;font-size: 50px;font-family: Arial, sans-serif;">Temperature:</p>
+    <canvas id="Light" style="width:70%;max-width:70%;height:300px !important;clear:right;float: right;padding-right: 30px;"></canvas>
+    <p style="float: left;padding-top: 85px;padding-left: 210px;font-size: 50px;font-family: Arial, sans-serif;">Light:</p>
+    
+    <script>
+      const xValues = [100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000];
+
+
+var PressureChart = new Chart("Pressure", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+      borderColor: "red",
+      fill: false
+    }]
+  },
+  options: {
+    legend: {display: false}
+  }
+  
+});
+
+var TemperatureChart = new Chart("Temperature", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+      borderColor: "blue",
+      fill: false
+    }]
+  },
+  options: {
+    legend: {display: false}
+  }
+  
+});
+
+var LightChart = new Chart("Light", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+      borderColor: "green",
+      fill: false
+    }]
+  },
+  options: {
+    legend: {display: false}
+  }
+  
+});
+
+
+    </script>
+</body>
+</html>
